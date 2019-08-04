@@ -25,7 +25,7 @@ public class ExportBus extends SlimefunItem {
 	public ExportBus(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		new BlockMenuPreset(name, "&3CT Export Bus") {
+		new BlockMenuPreset(name, "&3输出总线") {
 			
 			@Override
 			public void init() {
@@ -131,7 +131,7 @@ public class ExportBus extends SlimefunItem {
 			
 		});
 
-		preset.addItem(2, new CustomItem(Material.PAPER, "&3Items", "", "&bPut in all Items you want to", "&bwhitelist"),
+		preset.addItem(2, new CustomItem(Material.PAPER, "&3物品", "", "&b在这里放置你想添加到列表的物品", "&b白名单"),
 		new MenuClickHandler() {
 
 			@Override

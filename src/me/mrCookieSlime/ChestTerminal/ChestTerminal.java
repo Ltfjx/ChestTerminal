@@ -2,11 +2,15 @@ package me.mrCookieSlime.ChestTerminal;
 
 import java.util.List;
 
+import net.coreprotect.CoreProtect;
+import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -31,17 +35,18 @@ import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
 
 public class ChestTerminal extends JavaPlugin implements Listener {
 
-	public static final ItemStack quartz = new CustomItem(new ItemStack(Material.QUARTZ), "&rMilky Quartz");
-	
+	public static final ItemStack quartz = new CustomItem(new ItemStack(Material.QUARTZ), "&r乳白色石英");
+	public static CoreProtectAPI coreProtectAPI;
 	@Override
 	public void onEnable() {
-		Category category = new Category(new CustomItem(SlimefunItems.CHEST_TERMINAL, "&5Chest Terminal", "", "&a> Click to open"));
-		
-		final ItemStack wireless_terminal16 = new CustomItem(new ItemStack(Material.ITEM_FRAME), "&3CT Wireless Access Terminal &b(16)", "&8\u21E8 &7Linked to: &cNowhere", "&8\u21E8 &7Range: &e16 Blocks", "&c&o&8\u21E8 &e\u26A1 &70 / 10 J", "", "&7If this Block is linked to an Access Terminal", "&7it will be able to remotely access that Terminal", "", "&7&eRight Click on an Access Terminal &7to link", "&7&eRight Click&7 to open the linked Terminal");
-		final ItemStack wireless_terminal64 = new CustomItem(new ItemStack(Material.ITEM_FRAME), "&3CT Wireless Access Terminal &b(64)", "&8\u21E8 &7Linked to: &cNowhere", "&8\u21E8 &7Range: &e64 Blocks", "&c&o&8\u21E8 &e\u26A1 &70 / 25 J", "", "&7If this Block is linked to an Access Terminal", "&7it will be able to remotely access that Terminal", "", "&7&eRight Click on an Access Terminal &7to link", "&7&eRight Click&7 to open the linked Terminal");
-		final ItemStack wireless_terminal128 = new CustomItem(new ItemStack(Material.ITEM_FRAME), "&3CT Wireless Access Terminal &b(128)", "&8\u21E8 &7Linked to: &cNowhere", "&8\u21E8 &7Range: &e128 Blocks", "&c&o&8\u21E8 &e\u26A1 &70 / 50 J", "", "&7If this Block is linked to an Access Terminal", "&7it will be able to remotely access that Terminal", "", "&7&eRight Click on an Access Terminal &7to link", "&7&eRight Click&7 to open the linked Terminal");
-		final ItemStack wireless_terminalT = new CustomItem(new ItemStack(Material.ITEM_FRAME), "&3CT Wireless Access Terminal &b(Transdimensional)", "&8\u21E8 &7Linked to: &cNowhere", "&8\u21E8 &7Range: &eUnlimited", "&c&o&8\u21E8 &e\u26A1 &70 / 50 J", "", "&7If this Block is linked to an Access Terminal", "&7it will be able to remotely access that Terminal", "", "&7&eRight Click on an Access Terminal &7to link", "&7&eRight Click&7 to open the linked Terminal");
-		final ItemStack drill = new CustomItem(new ItemStack(Material.IRON_BLOCK), "&3Quartz Drill", "&7Mines up Milky Quartz", "", "&c&l! &cMake sure to Geo-Scan the Chunk first");
+		Category category = new Category(new CustomItem(SlimefunItems.CHEST_TERMINAL, "&5箱子终端", "", "&a> 点击来打开"));
+		if(Bukkit.getPluginManager().getPlugin("CoreProtect")!=null)
+			coreProtectAPI = ((CoreProtect)Bukkit.getPluginManager().getPlugin("CoreProtect")).getAPI();
+		final ItemStack wireless_terminal16 = new CustomItem(new ItemStack(Material.ITEM_FRAME), "&3箱子无线访问终端 &b(16)", "&8\u21E8 &7链接到: &c现在这里", "&8\u21E8 &7范围: &e16 方块", "&c&o&8\u21E8 &e\u26A1 &70 / 10 J", "", "&7如果此方块链接到访问终端", "&7它将能够远程访问该终端", "", "&7&e右键单击访问终端来&7链接", "&7&e右键单击&7来打开链接的终端");
+		final ItemStack wireless_terminal64 = new CustomItem(new ItemStack(Material.ITEM_FRAME), "&3箱子无线访问终端 &b(64)", "&8\u21E8 &7链接到: &c现在这里", "&8\u21E8 &7范围: &e64 方块", "&c&o&8\u21E8 &e\u26A1 &70 / 25 J", "", "&7如果此方块链接到访问终端", "&7它将能够远程访问该终端", "", "&7&e右键单击访问终端来&7链接", "&7&e右键单击&7来打开链接的终端");
+		final ItemStack wireless_terminal128 = new CustomItem(new ItemStack(Material.ITEM_FRAME), "&3箱子无线访问终端 &b(128)", "&8\u21E8 &7链接到: &c现在这里", "&8\u21E8 &7范围: &e128 方块", "&c&o&8\u21E8 &e\u26A1 &70 / 50 J", "", "&7如果此方块链接到访问终端", "&7它将能够远程访问该终端", "", "&7&e右键单击访问终端来&7链接", "&7&e右键单击&7来打开链接的终端");
+		final ItemStack wireless_terminalT = new CustomItem(new ItemStack(Material.ITEM_FRAME), "&3箱子无线访问终端 &b(跨次元)", "&8\u21E8 &7链接到: &c现在这里", "&8\u21E8 &7范围: &e无限", "&c&o&8\u21E8 &e\u26A1 &70 / 50 J", "", "&7如果此方块链接到访问终端", "&7它将能够远程访问该终端", "", "&7&e右键单击访问终端来&7链接", "&7&e右键单击&7来打开链接的终端");
+		final ItemStack drill = new CustomItem(new ItemStack(Material.IRON_BLOCK), "&3石英钻", "&7开采乳白色石英", "", "&c&l! &c确保首先对区块进行地理扫描");
 		
 		new QuartzDrill(category, drill, "QUARTZ_DRILL", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.POWER_CRYSTAL, null, SlimefunItems.PLASTIC_SHEET, SlimefunItems.OIL_PUMP, SlimefunItems.PLASTIC_SHEET, SlimefunItems.COBALT_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.COBALT_INGOT}) {
@@ -59,7 +64,7 @@ public class ChestTerminal extends JavaPlugin implements Listener {
 
 		new SlimefunItem(category, quartz, "MILKY_QUARTZ", new RecipeType(drill), new ItemStack[0]).register();
 		
-		new SlimefunItem(category, new CustomItem(SlimefunItems.CHEST_TERMINAL, "&3CT Illuminated Panel", "&7Crafting Component"), "CT_PANEL", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new SlimefunItem(category, new CustomItem(SlimefunItems.CHEST_TERMINAL, "&3发光面板", "&7制作组件"), "CT_PANEL", RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {quartz, SlimefunItems.BLISTERING_INGOT_3, quartz, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.POWER_CRYSTAL, SlimefunItems.REDSTONE_ALLOY, quartz, SlimefunItems.BLISTERING_INGOT_3, quartz})
 		.register();
 		
@@ -88,8 +93,8 @@ public class ChestTerminal extends JavaPlugin implements Listener {
 					
 					if (e.getClickedBlock() != null) {
 						if (BlockStorage.check(e.getClickedBlock(), "CHEST_TERMINAL")) {
-							lore.set(0, "&8\u21E8 &7Linked to: &8" + e.getClickedBlock().getWorld().getName() + " X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ());
-							p.sendMessage("&bLink established!");
+							lore.set(0, "&8\u21E8 &7链接到: &8" + e.getClickedBlock().getWorld().getName() + " X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ());
+							p.sendMessage("&b链接已建立!");
 							im.setLore(lore);
 							stack.setItemMeta(im);
 							p.getInventory().setItemInMainHand(stack);
@@ -118,8 +123,8 @@ public class ChestTerminal extends JavaPlugin implements Listener {
 					
 					if (e.getClickedBlock() != null) {
 						if (BlockStorage.check(e.getClickedBlock(), "CHEST_TERMINAL")) {
-							lore.set(0, "&8\u21E8 &7Linked to: &8" + e.getClickedBlock().getWorld().getName() + " X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ());
-							p.sendMessage("&bLink established!");
+							lore.set(0, "&8\u21E8 &7链接到: &8" + e.getClickedBlock().getWorld().getName() + " X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ());
+							p.sendMessage("&b链接已建立!");
 							im.setLore(lore);
 							stack.setItemMeta(im);
 							p.getInventory().setItemInMainHand(stack);
@@ -148,8 +153,8 @@ public class ChestTerminal extends JavaPlugin implements Listener {
 					
 					if (e.getClickedBlock() != null) {
 						if (BlockStorage.check(e.getClickedBlock(), "CHEST_TERMINAL")) {
-							lore.set(0, "&8\u21E8 &7Linked to: &8" + e.getClickedBlock().getWorld().getName() + " X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ());
-							p.sendMessage("&bLink established!");
+							lore.set(0, "&8\u21E8 &7链接到: &8" + e.getClickedBlock().getWorld().getName() + " X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ());
+							p.sendMessage("&b链接已建立!");
 							im.setLore(lore);
 							stack.setItemMeta(im);
 							p.getInventory().setItemInMainHand(stack);
@@ -178,8 +183,8 @@ public class ChestTerminal extends JavaPlugin implements Listener {
 					
 					if (e.getClickedBlock() != null) {
 						if (BlockStorage.check(e.getClickedBlock(), "CHEST_TERMINAL")) {
-							lore.set(0, "&8\u21E8 &7Linked to: &8" + e.getClickedBlock().getWorld().getName() + " X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ());
-							p.sendMessage("&bLink established!");
+							lore.set(0, "&8\u21E8 &7链接到: &8" + e.getClickedBlock().getWorld().getName() + " X: " + e.getClickedBlock().getX() + " Y: " + e.getClickedBlock().getY() + " Z: " + e.getClickedBlock().getZ());
+							p.sendMessage("&b链接已建立!");
 							im.setLore(lore);
 							stack.setItemMeta(im);
 							p.getInventory().setItemInMainHand(stack);
@@ -199,12 +204,12 @@ public class ChestTerminal extends JavaPlugin implements Listener {
 			
 			@Override
 			public String getName() {
-				return "Milky Quartz";
+				return "乳白色石英";
 			}
 			
 			@Override
 			public String getMeasurementUnit() {
-				return "Unit(s)";
+				return "单元";
 			}
 			
 			@Override
@@ -222,14 +227,14 @@ public class ChestTerminal extends JavaPlugin implements Listener {
 	}
 
 	private void openRemoteTerminal(Player p, ItemStack stack, String loc, int range) {
-		if (loc.equals("&8\u21E8 &7Linked to: &cNowhere")) {
-			p.sendMessage("&4Failed &c- This Device has not been linked to a Chest Terminal!");
+		if (loc.equals("&8\u21E8 &7链接到: &c现在位置")) {
+			p.sendMessage("&4失败 &c- 此设备尚未链接到箱子终端！");
 			return;
 		}
-		loc = loc.replace("&8\u21E8 &7Linked to: &8", "");
+		loc = loc.replace("&8\u21E8 &7链接到: &8", "");
 		World world = Bukkit.getWorld(loc.split(" X: ")[0]);
 		if (world == null) {
-			p.sendMessage("&4Failed &c- The Chest Terminal that this Device has been linked to no longer exists!");
+			p.sendMessage("&4失败 &c- 此设备已链接到的箱子终端不再存在!");
 			return;
 		}
 		int x = Integer.parseInt(loc.split(" X: ")[1].split(" Y: ")[0]);
@@ -239,27 +244,47 @@ public class ChestTerminal extends JavaPlugin implements Listener {
 		Block block = world.getBlockAt(x, y, z);
 		
 		if (!BlockStorage.check(block, "CHEST_TERMINAL")) {
-			p.sendMessage("&4Failed &c- The Chest Terminal that this Device has been linked to no longer exists!");
+			p.sendMessage("&4失败 &c- 此设备已链接到的箱子终端不再存在!");
 			return;
 		}
 		
 		float charge = ItemEnergy.getStoredEnergy(stack);
 		if (charge < 0.5F) {
-			p.sendMessage("&4Failed &c- You are out of Energy!");
+			p.sendMessage("&4失败 &c- 设备能源已耗尽!");
 			return;
 		}
 
 		if (range > 0 && !world.getUID().equals(p.getWorld().getUID())) {
-			p.sendMessage("&4Failed &c- You are out of Range!");
+			p.sendMessage("&4失败 &c- 超出距离!");
 			return;
 		}
 		if (range > 0 && block.getLocation().distance(p.getLocation()) > range) {
-			p.sendMessage("&4Failed &c- You are out of Range!");
+			p.sendMessage("&4Failed &c- 超出距离!");
 			return;
 		}
 
 		p.getInventory().setItemInMainHand(ItemEnergy.chargeItem(stack, -0.5F));
 		PlayerInventory.update(p);
 		BlockStorage.getInventory(block).open(p);
+	}
+	public static boolean logRemoveal(String user, Location location, Material type, BlockData blockData){
+		if(coreProtectAPI == null)
+			return false;
+		return coreProtectAPI.logRemoval(user,location,type,blockData);
+	}
+	public static boolean logPlacement(String user, Location location, Material type, BlockData blockData){
+		if(coreProtectAPI == null)
+			return false;
+		return coreProtectAPI.logPlacement(user,location,type,blockData);
+	}
+	public static boolean logInteraction(String user, Location location){
+		if(coreProtectAPI == null)
+			return false;
+		return coreProtectAPI.logInteraction(user,location);
+	}
+	public static boolean logContainerTransaction(String user, Location location){
+		if(coreProtectAPI == null)
+			return false;
+		return coreProtectAPI.logContainerTransaction(user,location);
 	}
 }

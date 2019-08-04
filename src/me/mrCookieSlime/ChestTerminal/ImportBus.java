@@ -26,7 +26,7 @@ public class ImportBus extends SlimefunItem {
 	public ImportBus(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		new BlockMenuPreset(name, ChatColor.translateAlternateColorCodes('&', "&3CT Import Bus")) {
+		new BlockMenuPreset(name, ChatColor.translateAlternateColorCodes('&', "&3输入总线")) {
 			
 			@Override
 			public void init() {
@@ -37,7 +37,7 @@ public class ImportBus extends SlimefunItem {
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-type") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-type").equals("whitelist")) {
-						menu.replaceExistingItem(23, new CustomItem(Material.WHITE_WOOL, "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
+						menu.replaceExistingItem(23, new CustomItem(Material.WHITE_WOOL, "&7类型: &r白名单", "", "&e> 点击切换到黑名单"));
 						menu.addMenuClickHandler(23, new MenuClickHandler() {
 
 							@Override
@@ -49,7 +49,7 @@ public class ImportBus extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(23, new CustomItem(Material.BLACK_WOOL, "&7Type: &8Blacklist", "", "&e> Click to change it to Whitelist"));
+						menu.replaceExistingItem(23, new CustomItem(Material.BLACK_WOOL, "&7类型: &8黑名单", "", "&e> 点击切换到白名单"));
 						menu.addMenuClickHandler(23, new MenuClickHandler() {
 
 							@Override
@@ -62,7 +62,7 @@ public class ImportBus extends SlimefunItem {
 					}
 					
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability").equals("false")) {
-						menu.replaceExistingItem(41, new CustomItem(Material.STONE_SWORD, "&7Include Sub-IDs/Durability: &4\u2718", "", "&e> Click to toggle whether the Durability has to match"));
+						menu.replaceExistingItem(41, new CustomItem(Material.STONE_SWORD, "&7包含 子ID/耐久度: &4\u2718", "", "&e> 点击来切换是否匹配耐久度"));
 						menu.addMenuClickHandler(41, new MenuClickHandler() {
 
 							@Override
@@ -74,7 +74,7 @@ public class ImportBus extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(41, new CustomItem(Material.GOLDEN_SWORD, "&7Include Sub-IDs/Durability: &2\u2714", "", "&e> Click to toggle whether the Durability has to match"));
+						menu.replaceExistingItem(41, new CustomItem(Material.GOLDEN_SWORD, "&7包含 子ID/耐久度: &2\u2714", "", "&e> 点击来切换是否匹配耐久度"));
 						menu.addMenuClickHandler(41, new MenuClickHandler() {
 
 							@Override
@@ -87,7 +87,7 @@ public class ImportBus extends SlimefunItem {
 					}
 					
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore").equals("true")) {
-						menu.replaceExistingItem(32, new CustomItem(Material.MAP, "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
+						menu.replaceExistingItem(32, new CustomItem(Material.MAP, "&7包含 Lore: &2\u2714", "", "&e> 点击来切换匹配Lores"));
 						menu.addMenuClickHandler(32, new MenuClickHandler() {
 
 							@Override
@@ -99,7 +99,7 @@ public class ImportBus extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(32, new CustomItem(Material.MAP, "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
+						menu.replaceExistingItem(32, new CustomItem(Material.MAP, "&7包含 Lore: &4\u2718", "", "&e> 点击来切换匹配Lores"));
 						menu.addMenuClickHandler(32, new MenuClickHandler() {
 
 							@Override
@@ -211,7 +211,7 @@ public class ImportBus extends SlimefunItem {
 			
 		});
 
-		preset.addItem(2, new CustomItem(Material.PAPER, "&3Items", "", "&bPut in all Items you want to", "&bblacklist/whitelist"),
+		preset.addItem(2, new CustomItem(Material.PAPER, "&3物品", "", "&b在这里放入所有你想要加入到列表的物品", "&b黑名单/白名单"),
 		new MenuClickHandler() {
 
 			@Override
