@@ -33,7 +33,7 @@ public class AccessTerminal extends SimpleSlimefunItem<BlockTicker> {
     public AccessTerminal(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getId(), "&3CT Access Terminal") {
+        new BlockMenuPreset(getId(), "&3访问终端") {
 
             @Override
             public void init() {
@@ -42,7 +42,7 @@ public class AccessTerminal extends SimpleSlimefunItem<BlockTicker> {
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
-                menu.replaceExistingItem(46, new CustomItem(SlimefunUtils.getCustomHead("f2599bd986659b8ce2c4988525c94e19ddd39fad08a38284a197f1b70675acc"), "&7\u21E6 Previous Page", "", "&c(This may take up to a Second to update)"));
+                menu.replaceExistingItem(46, new CustomItem(SlimefunUtils.getCustomHead("f2599bd986659b8ce2c4988525c94e19ddd39fad08a38284a197f1b70675acc"), "&7\u21E6 上一页", "", "&c(也许要几秒更新界面)"));
                 menu.addMenuClickHandler(46, (p, slot, item, action) -> {
                     int page = getPage(b) - 1;
                     if (page > 0) {
@@ -52,7 +52,7 @@ public class AccessTerminal extends SimpleSlimefunItem<BlockTicker> {
                     return false;
                 });
 
-                menu.replaceExistingItem(50, new CustomItem(SlimefunUtils.getCustomHead("c2f910c47da042e4aa28af6cc81cf48ac6caf37dab35f88db993accb9dfe516"), "&7Next Page \u21E8", "", "&c(This may take up to a Second to update)"));
+                menu.replaceExistingItem(50, new CustomItem(SlimefunUtils.getCustomHead("c2f910c47da042e4aa28af6cc81cf48ac6caf37dab35f88db993accb9dfe516"), "&7下一页 \u21E8", "", "&c(也许要几秒更新界面)"));
                 menu.addMenuClickHandler(50, (p, slot, item, action) -> {
                     int page = getPage(b) + 1;
                     BlockStorage.addBlockInfo(b, "page", String.valueOf(page));
@@ -106,11 +106,11 @@ public class AccessTerminal extends SimpleSlimefunItem<BlockTicker> {
         MenuClickHandler click = (p, slot, item, action) -> false;
 
         preset.addItem(45, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), click);
-        preset.addItem(46, new CustomItem(Material.RED_STAINED_GLASS_PANE, "This will update shortly"));
+        preset.addItem(46, new CustomItem(Material.RED_STAINED_GLASS_PANE, "他会很快更新"));
         preset.addItem(47, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), click);
         preset.addItem(48, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), click);
         preset.addItem(49, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), click);
-        preset.addItem(50, new CustomItem(Material.RED_STAINED_GLASS_PANE, "This will update shortly"));
+        preset.addItem(50, new CustomItem(Material.RED_STAINED_GLASS_PANE, "他会很快更新"));
         preset.addItem(51, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), click);
 
         preset.addItem(7, new CustomItem(Material.CYAN_STAINED_GLASS_PANE, " "), click);
@@ -130,7 +130,7 @@ public class AccessTerminal extends SimpleSlimefunItem<BlockTicker> {
     public BlockTicker getItemHandler() {
         return new BlockTicker() {
 
-            private final ItemStack item = new CustomItem(Material.BARRIER, "&4No Cargo Net connected!");
+            private final ItemStack item = new CustomItem(Material.BARRIER, "&4找不到货运网络!");
             private final MenuClickHandler click = (p, slot, stack, action) -> false;
 
             @Override

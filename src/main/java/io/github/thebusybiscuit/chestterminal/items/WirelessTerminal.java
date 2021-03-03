@@ -45,8 +45,8 @@ public abstract class WirelessTerminal extends SimpleSlimefunItem<ItemUseHandler
                 Block b = e.getClickedBlock().get();
 
                 if (e.getSlimefunBlock().get() instanceof AccessTerminal) {
-                    lore.set(0, ChatColors.color("&8\u21E8 &7Linked to: &8") + b.getWorld().getName() + " X: " + b.getX() + " Y: " + b.getY() + " Z: " + b.getZ());
-                    p.sendMessage(ChatColors.color("&bLink established!"));
+                    lore.set(0, ChatColors.color("&8\u21E8 &7已链接到: &8") + b.getWorld().getName() + " X: " + b.getX() + " Y: " + b.getY() + " Z: " + b.getZ());
+                    p.sendMessage(ChatColors.color("&b链接完成!"));
                     im.setLore(lore);
                     stack.setItemMeta(im);
                     p.getInventory().setItemInMainHand(stack);
