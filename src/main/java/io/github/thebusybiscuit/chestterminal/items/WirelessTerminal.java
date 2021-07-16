@@ -67,7 +67,7 @@ public abstract class WirelessTerminal extends SimpleSlimefunItem<ItemUseHandler
             return;
         }
 
-        loc = loc.replace(ChatColors.color("&8\u21E8 &7Linked to: &8"), "");
+        loc = loc.replace(ChatColors.color("&8\u21E8 &7已链接到: &8"), "");
         World world = Bukkit.getWorld(loc.split(" X: ")[0]);
 
         if (world == null) {
